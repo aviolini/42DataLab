@@ -1,4 +1,9 @@
 
+def to_dic(x):
+	dic={key:value for value, key in x}
+	for key, value in dic.items():
+		print(key, ' : ', value)
+
 d = [
 ('Hendrix' , '1942'),
 ('Allman' , '1946'),
@@ -22,10 +27,4 @@ d = [
 ('Burton' , '1939')
 ]
 
-#INVERTIRE KEY E VAUE#################################################################
-dic=dict(d)
-
-# https://thispointer.com/python-4-ways-to-print-items-of-a-dictionary-line-by-line/
-for key, value in dic.items():
-	print(key, ' : ', value)
-
+to_dic(d)
