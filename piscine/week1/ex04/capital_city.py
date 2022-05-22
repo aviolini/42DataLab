@@ -24,7 +24,7 @@ for ks in states:
 for k in d:
 	if k == sys.argv[1]:
 		print (d[k])
-		print (quit())
+		quit()
 print('Unknown state')
 
 

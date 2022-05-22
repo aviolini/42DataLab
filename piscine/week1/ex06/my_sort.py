@@ -21,6 +21,13 @@ d={
 'Burton' : '1939',
 }
 
-s=sorted(d.items(), key=lambda x:( (x[1]),x[0]))
+s = sorted(d.items(), key=lambda x : x[1])
+print ("first sort:")
+for value in s:
+	print(value[0])
+
+
+s = sorted(d.items(), key=lambda x:( (x[1]),x[0]))
+print ("\nsecond sort:")
 for value in s:
 	print(value[0])
