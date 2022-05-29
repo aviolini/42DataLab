@@ -1,14 +1,11 @@
 # https://www.big-meter.com/opensource/en/5fec9fc796d0a3317c75c0f3.html
-# https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.rgb_to_hsv.html
-# plt al posto di cv2
-# mettere altri filtri
-# problema astype in brightness_contrast
 
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
-# from google.colab.patches import cv2.imshow
-'win',
+from google.colab.patches import cv2_imshow
+import requests
+
 
 def hue_saturation(img_rgb, alpha = 1, beta = 1):
   img_hsv = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2HSV)
@@ -49,43 +46,56 @@ def replace_color(img,hl=0,sl=0,vl=0,hu=0,su=0,vu=0,nred=0,ngreen=0,nblue=0):
   img[color>0]=(nblue,ngreen,nred)
   return img
 
-
 def Amaro(img, hue = 1.1, saturation = 1.5, contrast = 0.9, brightness = 10):
   img = hue_saturation(img, hue, saturation)
   img = brightness_contrast(img, contrast, brightness)
   return img
 
-def Nashville(img, hue = 1, saturation = 1.5, contrast = 1.2, brightness = 10):
+def Toaster(img, hue = 1, saturation = 1, contrast = 1.08, brightness = 1.08):
   img = hue_saturation(img, hue, saturation)
   img = brightness_contrast(img, contrast, brightness)
-  img = replace_color(np.float32(img),0,0,0,0,0,30,34,43,109)
-  img = replace_color(np.float32(img),0,0,200,0,0,255,247,218,174)
-  #img = vignette(img,247,218,174,0.2)
   return img
-                        
 
-img = cv2.imread('doge.jpg')
-cv2.imshow('win',img)
+def Nashville(img, hue = 1, saturation = 1.2, contrast = 1.2, brightness = 1.05):
+  img = hue_saturation(img, hue, saturation)
+  img = brightness_contrast(img, contrast, brightness)
+  img = replace_color(np.float32(img),0,0,0,0,0,30,247,176,153)
+  img = replace_color(np.float32(img),0,0,0,0,0,30,0, 70, 150)
+  return img
 
-# # plt.gcf().set_size_inches(25,25)
-# # plt.subplot(131),plt.imshow(img),plt.title('Original')
-# # plt.xticks([]), plt.yticks([])
+def Valencia(img, hue = 1, saturation = 1, contrast = 1.08, brightness = 1.08):
+  img = hue_saturation(img, hue, saturation)
+  img = brightness_contrast(img, contrast, brightness)
+  img = replace_color(np.float32(img),0,0,0,0,0,30,58,3,57)
+  return img
 
-img_amaro = Amaro(img)
-# # img_amaro = Amaro(cv2.cvtColor(img,cv2.COLOR_BGR2RGB ) )
+def Mayfair(img, hue = 1, saturation = 1.1, contrast = 1.1, brightness = 1):
+  img = hue_saturation(img, hue, saturation)
+  img = brightness_contrast(img, contrast, brightness)
+  img = replace_color(np.float32(img),0,0,0,0,0,30,255, 255, 255)
+  img = replace_color(np.float32(img),0,0,0,0,0,30,255, 200, 200)
+  img = replace_color(np.float32(img),0,0,0,0,0,30,17, 17, 17)
+  return img
 
+response = requests.get("https://cdn.w600.comps.canstockphoto.com/lady-with-flowers-stock-image_csp50293869.jpg").content
+with open('/content/flowers.jpg', 'wb') as handle:
+    handle.write(response)
+img = cv2.imread('/content/flowers.jpg')
 
-# # plt.subplot(132),plt.imshow(img_amaro),plt.title('Amaro')
-# # plt.xticks([]), plt.yticks([])
+print('Original')
+cv2_imshow(img)
 
-cv2.imshow('win',img_amaro)
-# # plt.show(img_amaro)
+print('Amaro')
+cv2_imshow(Amaro(img))
 
-# # plt.subplot(133),plt.imshow(img),plt.title('Averaging - 5x5')
-# # plt.xticks([]), plt.yticks([])
+print('Nashville')
+cv2_imshow(Nashville(img))
 
-img_nashville = Nashville(img)
-cv2.imshow('win',img_nashville)
+print('Toaster')
+cv2_imshow(Toaster(img))
 
+print('Valencia')
+cv2_imshow(Valencia(img))
 
-# plt.show()
+print('Mayfair')
+cv2_imshow(Mayfair(img))
